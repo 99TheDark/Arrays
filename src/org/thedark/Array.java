@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.RandomAccess;
 import java.util.Set;
+import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Stream;
@@ -246,6 +247,17 @@ public class Array<T> implements Iterable<T>, Cloneable, RandomAccess, Serializa
 
 		for (int i = 0; i < length; i++) items[i] = arr.get(i);
 
+	}
+	
+	public <U> U reduce(BiFunction<T, U, U> accumulator, U initial) {
+		
+		if(length == 0) return initial;
+		
+		U result = initial;
+		for(int i = 0; i < length; i++) result = accumulator.apply(get(i), result);
+		
+		return result;
+		
 	}
 
 	public boolean contains(T item) {
