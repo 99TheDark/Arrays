@@ -6,6 +6,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.RandomAccess;
@@ -475,6 +476,12 @@ public class Array<T> implements Iterable<T>, Cloneable, RandomAccess, Serializa
 
 		return toList().stream();
 
+	}
+	
+	public LinkedList<T> toLinkedList() {
+		
+		return new LinkedList<T>(toList());
+		
 	}
 
 	public void trim(int newLength, int index) {
