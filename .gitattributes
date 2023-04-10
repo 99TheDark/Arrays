@@ -1,0 +1,3 @@
+*.java linguist-language=Java
+*.jar linguist-language=Java
+*.class linguist-language=Java
