@@ -23,6 +23,8 @@ public class Runner {
 		Array<Integer> nums = new Array<Integer>();
 		nums.add(38, 27, 43, 3, 9, 82, 10);
 		nums.sort((Integer a, Integer b) -> a - b);
+		
+		System.out.println(nums.reduce((val, cur) -> cur + val, 0));
 				
 	}
 
