@@ -32,8 +32,6 @@ public class Array<T> implements Iterable<T>, Cloneable, RandomAccess, Serializa
 	 * 
 	 * TODO:
 	 * flat(depth)
-	 * shift(places)
-	 * remove(index, count)
 	 * Add JavaDoc
 	 * 
 	 */
@@ -156,23 +154,33 @@ public class Array<T> implements Iterable<T>, Cloneable, RandomAccess, Serializa
 		length++;
 
 	}
-
+	
 	@SuppressWarnings("unchecked")
+	public Array<T> remove(int index, int count) {
+		
+		if(count == 0) return null;
+		
+		checkIndex(index);
+		if(count < 0 || count > length - index) throw new IllegalArgumentException("Illegal remove count " + count);
+		
+		Object[] arr = new Object[length - count];
+		
+		Array<T> deleted = new Array<T>(count);
+		
+		for(int i = 0; i < index; i++) arr[i] = items[i];
+		for(int i = index; i < index + count; i++) deleted.add(get(i));
+		for(int i = index + count; i < length; i++) arr[i - count] = items[i];
+		
+		items = arr;
+		length -= count;
+		
+		return deleted;
+				
+	}
+	
 	public T remove(int index) {
 
-		checkIndex(index);
-
-		Object[] arr = new Object[length - 1];
-
-		Object deleted = items[index];
-
-		for (int i = 0; i < index; i++) arr[i] = items[i];
-		for (int i = index + 1; i < length; i++) arr[i - 1] = items[i];
-
-		items = arr;
-		length--;
-
-		return (T) deleted;
+		return remove(index, 1).get(0);
 
 	}
 
@@ -325,6 +333,18 @@ public class Array<T> implements Iterable<T>, Cloneable, RandomAccess, Serializa
 
 		items = reversed;
 
+	}
+	
+	public void shift(int places) {
+		
+		if(places % length == 0) return;
+		
+		Object[] shifted = new Object[length];
+		
+		for(int i = 0; i < length; i++) shifted[i] = at(i + places);
+		
+		items = shifted;
+		
 	}
 
 	public int indexOf(T item, int skip) {
